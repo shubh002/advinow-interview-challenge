@@ -1,10 +1,10 @@
 import uvicorn
 from fastapi import FastAPI # need python-multipart
-import views
+from views import router
 
 app = FastAPI(title="AdviNow Interview Challenge", version="1.6")
 
-app.include_router(views.router)
+app.include_router(router)
 
 
 if __name__ == '__main__':
