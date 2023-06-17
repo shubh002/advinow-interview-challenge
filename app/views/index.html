@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html>
 <head>
     <title>File Upload Form</title>
@@ -9,5 +9,91 @@
         <input type="file" name="file" id="file" required>
         <input type="submit" value="Submit">
     </form>
+</body>
+</html> -->
+
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>File Upload Example</title>
+</head>
+<body>
+  <h1>File Upload Example</h1>
+  
+  <form id="upload-form" enctype="multipart/form-data">
+    <input type="file" name="file" id="file-input">
+    <button type="submit">Upload</button>
+  </form>
+
+  <div id="response-message"></div>
+
+  <script>
+    // document.getElementById('upload-form').addEventListener('submit', function(event) {
+    //   event.preventDefault();
+      
+    //   // Get the selected file from the file input
+    //   var fileInput = document.getElementById('file-input');
+    //   var file = fileInput.files[0];
+
+    //   // Create a FormData object and append the file
+    //   var formData = new FormData();
+    //   formData.append('file', file);
+
+    //   // Send the file to the server using XMLHttpRequest
+    //   var xhr = new XMLHttpRequest();
+    //   xhr.open('POST', '/upload', true);
+      
+    //   xhr.onload = function() {
+    //     console.log(xhr)
+    //     if (xhr.status === 200) {
+    //       // Display the server's response message
+    //       var response = JSON.parse(xhr.responseText);
+    //       document.getElementById('response-message').innerHTML = response.message;
+    //     } else {
+    //       document.getElementById('response-message').innerHTML = 'Error occurred during file upload.';
+    //     }
+    //   };
+      
+    //   xhr.send(formData);
+    // });
+    document.getElementById('upload-form').addEventListener('submit', function(event) {
+  event.preventDefault();
+
+  // Get the selected file from the file input
+  var fileInput = document.getElementById('file-input');
+  var file = fileInput.files[0];
+
+  // Create a FormData object and append the file
+  var formData = new FormData();
+  formData.append('file', file);
+
+  // Send the file to the server using Fetch API
+  fetch('/upload', {
+    method: 'POST',
+    body: formData
+  })
+  .then(function(response) {
+    console.log(response)
+    if (response.ok) {
+      // If the response is successful, parse the JSON response
+      return response.json();
+    } else {
+      // If there is an error, reject the Promise with the error message
+      throw new Error('Error occurred during file upload.');
+    }
+  })
+  .then(function(data) {
+    // Display the server's response message
+    console.log(data)
+    document.getElementById('response-message').innerHTML = data.message;
+  })
+  .catch(function(error) {
+    // Display the error message
+    document.getElementById('response-message').innerHTML = error.message;
+  });
+});
+
+  </script>
 </body>
 </html>
