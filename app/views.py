@@ -1,6 +1,7 @@
-from fastapi import APIRouter,UploadFile
+from fastapi import APIRouter,UploadFile, Query
 from fastapi.responses import FileResponse
 from fastapi.responses import JSONResponse
+from fastapi.encoders import jsonable_encoder
 import os
 import csv
 from models import BusinessDataLoader
@@ -34,24 +35,41 @@ async def upload_file(file: UploadFile = UploadFile(...)):
         return JSONResponse(content={"error": str(e)}, status_code=500)
 
 @router.get("/data")
-async def get_data(business_id: int = None, diagnostic: bool = None):
-    results = {}
+async def get_data(business_id: int = Query(None, description='Business ID'),
+             diagnostic: str = Query(None, description='Diagnostic')):
+
     session = SessionLocal()
+    
+    # business_id = request.args.get('business_id')
+    # diagnostic = request.args.get('symptom_diagnostic')
+
+    query = session.query(Business.business_id, Business.business_name, Business.symptom_code,
+                             Symptom.symptom_name, Symptom.symptom_diagnostic)
+
     # Check if business_id is provided
-    
-    print(business_id)
+    if business_id:
+        query = query.filter(Business.business_id == business_id)
 
-    if business_id is not None:
-        temp = session.query(Business, Symptom). \
-                filter(Business.business_id == business_id). \
-                filter(Business.symptom_code == Symptom.symptom_code).all()
-        for t in temp:
-            print(dir(t))
-
+    if diagnostic:
+        query = query.filter(Symptom.symptom_diagnostic == diagnostic)
     
-        
-    # Return the results
-    # return results
+    query = query.join(Symptom, Business.symptom_code == Symptom.symptom_code)
+
+    result = query.all()
+
+    data = []
+    for row in result:
+        business_id, business_name, symptom_code, symptom_name, symptom_diagnostic = row
+        data.append({
+            'business_id': business_id,
+            'business_name': business_name,
+            'symptom_code': symptom_code,
+            'symptom_name': symptom_name,
+            'symptom_diagnostic': symptom_diagnostic
+        })
+
+    return jsonable_encoder(data)
+
 
 @router.get('/status')
 async def get_status():

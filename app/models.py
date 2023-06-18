@@ -8,6 +8,8 @@ import datetime
 Base = declarative_base()
 
 SQLALCHEMY_DATABASE_URL = "postgresql://postgres:admin@localhost/postgres"
+#change this to variable from .env
+
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
 
 # Create a SessionLocal class to handle database sessions
@@ -25,7 +27,7 @@ class Business(Base):
         PrimaryKeyConstraint('business_id', 'symptom_code'),
     )
 
-class Symptom(Base):
+class Symptom(Base): 
     __tablename__ = "symptom"
 
     symptom_code = Column(String(100), primary_key=True)
