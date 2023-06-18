@@ -4,11 +4,21 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.types import Boolean
 from sqlalchemy.ext.declarative import declarative_base
 import datetime
+from dotenv import load_dotenv
+import os
 
 Base = declarative_base()
 
-SQLALCHEMY_DATABASE_URL = "postgresql://postgres:admin@localhost/postgres"
-#change this to variable from .env
+#SQLALCHEMY_DATABASE_URL = "postgresql://postgres:admin@localhost/postgres"
+
+# Load environment variables from .env file
+load_dotenv()
+DB_HOST = os.getenv('DB_HOST')
+DB_NAME = os.getenv('DB_NAME')
+DB_USER = os.getenv('DB_USER')
+DB_PASSWORD = os.getenv('DB_PASSWORD')
+
+SQLALCHEMY_DATABASE_URL = f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}/{DB_NAME}"
 
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
 
