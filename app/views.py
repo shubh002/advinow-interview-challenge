@@ -50,6 +50,7 @@ async def get_data(business_id: int = Query(None, description='Business ID'),
     if business_id:
         query = query.filter(Business.business_id == business_id)
 
+    # Check if symptom diagnostic is provided
     if diagnostic:
         query = query.filter(Symptom.symptom_diagnostic == diagnostic)
     

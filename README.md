@@ -41,17 +41,17 @@ The final end result should be a filled database, two working APIs, and an acces
 - Install all the requirements "pip install -r requirements.txt".
 - Check db models in models.py
 - To create/ update db, run both the scripts
-* alembic revision --autogenerate -m some_comment
-* alembic upgrade head
+  - alembic revision --autogenerate -m some_comment
+  - alembic upgrade head
 - To view db/ tables in it use the command "sudo -u postgres psql postgres".
 - Use basic sql code to view db/ table values (ex: "select * from business;").
 - To run the FastAPI server go to 'app' directory and use command "uvicorn run:app --reload".
 - To import a new csv file and update database, 
-* go to "http://localhost:8000/" 
-* choose the csv file to upload and click on Upload button
+  - go to "http://localhost:8000/" 
+  - choose the csv file to upload and click on Upload button
 - To view data on FastAPI
-* go to "http://localhost:8000/data?business_id=1004&diagnostic=true"
-* choose values for business_id & diagnostic (optional)
+  - go to "http://localhost:8000/data?business_id=1004&diagnostic=true"
+  - choose values for business_id & diagnostic (optional)
 
 
 ## Future Improvements
