@@ -5,20 +5,18 @@ from sqlalchemy.types import Boolean
 from sqlalchemy.ext.declarative import declarative_base
 import datetime
 from dotenv import load_dotenv
-import os
+import os, sys, os.path
+sys.path.append('/root/job_assesments/advinow-interview-challenge')
+#change the system path accordingly (to root folder)
+import settings
 
 Base = declarative_base()
 
 #SQLALCHEMY_DATABASE_URL = "postgresql://postgres:admin@localhost/postgres"
 
-# Load environment variables from .env file
-load_dotenv()
-DB_HOST = os.getenv('DB_HOST')
-DB_NAME = os.getenv('DB_NAME')
-DB_USER = os.getenv('DB_USER')
-DB_PASSWORD = os.getenv('DB_PASSWORD')
+SQLALCHEMY_DATABASE_URL = settings.DB_URL
 
-SQLALCHEMY_DATABASE_URL = f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}/{DB_NAME}"
+#SQLALCHEMY_DATABASE_URL = f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}/{DB_NAME}"
 
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
 
