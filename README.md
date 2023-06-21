@@ -36,7 +36,7 @@ The final end result should be a filled database, two working APIs, and an acces
 
 ## How to Run
 
-- Update values for DB_HOST, DB_NAME, DB_USER & DB_PASSWORD in .env file based on your postgres server.
+- Update value of root path in line 9 of models.py based on your directory.
 - Create a new virtual environment (ex: "python -m venv venv").
 - Install all the requirements "pip install -r requirements.txt".
 - Check db models in models.py
